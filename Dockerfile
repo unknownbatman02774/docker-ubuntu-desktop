@@ -23,12 +23,18 @@ RUN apt update -y && \
 
 RUN touch /root/.Xauthority
 
-EXPOSE 5901
+# Download 3x-ui
+RUN ARCH=amd64 && \
+    wget -q https://github.com/MHSanaei/3x-ui/releases/latest/download/x-ui-linux-${ARCH}.tar.gz -O /tmp/x-ui.tar.gz && \
+    cd /tmp && \
+    tar -xzf x-ui.tar.gz && \
+    chmod +x x-ui/x-ui x-ui/bin/xray-linux-* && \
+    mv x-ui /usr/local/x-ui
+
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 EXPOSE 6080
 EXPOSE 2053
 
-CMD bash -c "vncserver -localhost no -SecurityTypes None -geometry 1024x768 --I-KNOW-THIS-IS-INSECURE && \
-openssl req -new -subj '/C=JP' -x509 -days 365 -nodes -out self.pem -keyout self.pem && \
-websockify -D --web=/usr/share/novnc/ --cert=self.pem 6080 localhost:5901 && \
-/usr/local/x-ui/x-ui & \
-tail -f /dev/null"
+CMD ["/start.sh"]
