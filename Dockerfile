@@ -23,9 +23,6 @@ RUN apt update -y && \
 
 RUN touch /root/.Xauthority
 
-# Install 3x-ui / Sanaei
-RUN bash <(curl -Ls https://raw.githubusercontent.com/MHSanaei/3x-ui/master/install.sh) install
-
 EXPOSE 5901
 EXPOSE 6080
 EXPOSE 2053
