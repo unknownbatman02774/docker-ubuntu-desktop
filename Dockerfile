@@ -16,15 +16,16 @@ RUN apt update -y && \
 
 RUN touch /root/.Xauthority
 
-# Download 3x-ui
-RUN ARCH=amd64 && \
-    wget -q https://github.com/MHSanaei/3x-ui/releases/latest/download/x-ui-linux-${ARCH}.tar.gz -O /tmp/x-ui.tar.gz && \
-    cd /tmp && \
-    tar -xzf x-ui.tar.gz && \
-    chmod +x x-ui/x-ui x-ui/bin/xray-linux-* && \
-    mv x-ui /usr/local/x-ui
+# Install 3x-ui / Sanaei
+RUN wget -q https://github.com/MHSanaei/3x-ui/releases/latest/download/x-ui-linux-amd64.tar.gz \
+    -O /tmp/x-ui.tar.gz && \
+    mkdir -p /usr/local/x-ui && \
+    tar -xzf /tmp/x-ui.tar.gz -C /usr/local/x-ui --strip-components=1 && \
+    chmod +x /usr/local/x-ui/x-ui && \
+    chmod +x /usr/local/x-ui/bin/xray-linux-amd64
 
 COPY start.sh /start.sh
+
 RUN chmod +x /start.sh
 
 EXPOSE 6080
