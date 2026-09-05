@@ -9,14 +9,7 @@ RUN apt update -y && apt install --no-install-recommends -y \
     sudo xterm \
     vim net-tools curl wget git tzdata \
     dbus-x11 x11-utils x11-xserver-utils x11-apps \
-    software-properties-common \
     ca-certificates openssl
-
-RUN add-apt-repository ppa:mozillateam/ppa -y
-
-RUN echo 'Package: *' >> /etc/apt/preferences.d/mozilla-firefox && \
-    echo 'Pin: release o=LP-PPA-mozillateam' >> /etc/apt/preferences.d/mozilla-firefox && \
-    echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/mozilla-firefox
 
 RUN apt update -y && \
     apt install -y firefox xubuntu-icon-theme
